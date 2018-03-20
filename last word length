@@ -1,0 +1,23 @@
+import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner input= new Scanner(System.in);
+        String s = input.nextLine();
+        int len = s.length();
+        if (len==0) System.out.println(0);
+        if (len==1) System.out.println(1);
+        char[] s_chars = new char[len];
+        int i =0;
+        for (char s_char: s_chars){
+            s_chars[i]=s.charAt(i);
+            i++;}
+        int N=0;
+        for (i=len-1;i>=0;i--){
+            if (s_chars[i]!=' '){
+                N++;
+            }else {
+                break;}}
+        System.out.println(N);
+    }
+}
