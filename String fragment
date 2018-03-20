@@ -1,0 +1,22 @@
+import java.util.*;
+ public class Main{
+     public static void main(String[] ag){
+         Scanner input = new Scanner(System.in);
+         String s = input.nextLine();
+         int length = s.length();
+         int i;
+         if (length==0) {System.out.println(0); return;}
+         char[] sc = new char[length];
+         for(i = 0;i<s.length();i++){
+             sc[i]=s.charAt(i);
+         }
+         int num = 1;
+         
+         for (i=0;i<length-1;i++){
+             if(sc[i]!=sc[i+1]) num +=1;
+         }
+         
+         double res = (double)length/(double)num;
+         System.out.println(String.format("%.2f", res));
+     }
+ }
