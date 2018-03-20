@@ -1,0 +1,1 @@
+This repository is used to store the codes and their rates of pass in leetcode. 
