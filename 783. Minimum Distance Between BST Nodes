@@ -1,3 +1,9 @@
+/*
+递归求解，思路：
+1. 找到左子树最大值，和右子树最小值，与中间值相减，得到current_min（当前最小值）；
+2. 求解左子树内部最小值和右子树内部最小值；
+3. 返回最终三个子树的最小值。
+*/
 class Solution {
     // int history_min = Integer.MAX_VALUE;
     public int minDiffInBST(TreeNode root) {
