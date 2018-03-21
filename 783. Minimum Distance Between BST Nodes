@@ -1,0 +1,118 @@
+class Solution {
+    // int history_min = Integer.MAX_VALUE;
+    public int minDiffInBST(TreeNode root) {
+        int left_max=0,right_min=Integer.MAX_VALUE,min_left=Integer.MAX_VALUE,min_right=Integer.MAX_VALUE;
+        if (root.left!=null)  left_max= Maximum(root);
+        if (root.right!=null) right_min= Minimum(root);
+        int current_min = (root.val-left_max)<(right_min-root.val)?(root.val-left_max):(right_min-root.val);
+        if (root.left!=null){
+            // System.out.println(root.left.val);
+            min_left = MyminDiffInBST(root.left,current_min);
+        }
+        if (root.right!=null){
+            min_right = MyminDiffInBST(root.right,current_min);
+        }
+        int result = min_left<min_right?min_left:min_right;
+        return result;
+    }
+    public int MyminDiffInBST(TreeNode root, int last_min){
+        int left_max = Maximum(root);
+        int right_min = Minimum(root);
+        int left_val = root.val-left_max;
+        int right_val = right_min-root.val;
+        if (left_val == 0&&right_val == 0) return Integer.MAX_VALUE;
+        else if (left_val == 0) left_val= Integer.MAX_VALUE;
+        else if (right_val == 0) right_val =Integer.MAX_VALUE ;
+        int current_min = left_val<right_val?left_val:right_val;
+        current_min = current_min<last_min?current_min:last_min;
+        int min_left =Integer.MAX_VALUE ,min_right=Integer.MAX_VALUE; 
+        if (root.left!=null){
+            //System.out.println(root.left.val);
+            min_left = MyminDiffInBST(root.left,current_min);
+        }   
+        if (root.right!=null){
+            min_right = MyminDiffInBST(root.right,current_min);
+        }
+        
+        int result = current_min<(min_left<min_right?min_left:min_right)?current_min:(min_left<min_right?min_left:min_right);
+        return result;
+    }
+    
+    public int Minimum(TreeNode x){
+        //System.out.println(x.val);
+        if (x.right==null) return x.val;
+        x=x.right;
+        while (x.left!=null) x=x.left;
+        return x.val;
+    }
+    public int Maximum(TreeNode x){
+        //System.out.println(x.val);
+        if (x.left==null) return x.val;
+        x=x.left;
+        while (x.right!=null) x=x.right;
+        System.out.println(x.val);
+// 
+        return x.val;
+    }
+
+}
+
+public class MainClass {
+    public static TreeNode stringToTreeNode(String input) {
+        input = input.trim();
+        input = input.substring(1, input.length() - 1);
+        if (input.length() == 0) {
+            return null;
+        }
+    
+        String[] parts = input.split(",");
+        String item = parts[0];
+        TreeNode root = new TreeNode(Integer.parseInt(item));
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        nodeQueue.add(root);
+    
+        int index = 1;
+        while(!nodeQueue.isEmpty()) {
+            TreeNode node = nodeQueue.remove();
+    
+            if (index == parts.length) {
+                break;
+            }
+    
+            item = parts[index++];
+            item = item.trim();
+            if (!item.equals("null")) {
+                int leftNumber = Integer.parseInt(item);
+                node.left = new TreeNode(leftNumber);
+                nodeQueue.add(node.left);
+            }
+    
+            if (index == parts.length) {
+                break;
+            }
+    
+            item = parts[index++];
+            item = item.trim();
+            if (!item.equals("null")) {
+                int rightNumber = Integer.parseInt(item);
+                node.right = new TreeNode(rightNumber);
+                nodeQueue.add(node.right);
+            }
+        }
+        return root;
+    }
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String line;
+        while ((line = in.readLine()) != null) {
+            TreeNode root = stringToTreeNode(line);
+            
+            int ret = new Solution().minDiffInBST(root);
+            
+            String out = String.valueOf(ret);
+            
+            System.out.print(out);
+        }
+    }
+}
