@@ -1,0 +1,51 @@
+select aa.*
+from (
+    select * from stadium where people >= 100 
+) aa#aa 代表结果表
+where #三个条件，满足一个可以通过，1，上下两个id相连，2，与第二第三个id相连，3，与前一个前两个id相连。
+(
+    aa.id  = any
+    (
+        select 
+        (
+            bb.id+1
+        ) from 
+        (
+            select * from stadium where people >= 100 
+        ) bb
+    ) 
+    and 
+    aa.id  = any 
+    (
+        select 
+        (
+            bb.id-1
+        ) from 
+        ( 
+            select * from stadium where people >= 100 
+        ) bb 
+    )) 
+    or 
+    (
+        aa.id  = any
+        (
+            select (bb.id+1) from 
+            (
+                select * from stadium where people >= 100 
+            ) bb 
+        ) 
+        and 
+        aa.id  = any
+        (
+            select (bb.id+2) from (select * from stadium where people >= 100 ) bb 
+        )) or  
+        (
+            aa.id  = any
+            (
+                select (bb.id-1) from (select * from stadium where people >= 100 ) bb 
+            ) 
+            and 
+            aa.id  = any
+            (
+                select (bb.id-2) from (select * from stadium where people >= 100 ) bb 
+            ))
