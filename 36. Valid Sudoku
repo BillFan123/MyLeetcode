@@ -1,0 +1,49 @@
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        boolean[] res =new boolean[27];
+        HashSet<Integer> nine = new HashSet<Integer>();
+        int count;
+        for(int i =0;i<board.length;i++){
+            count=0;
+            for(int j =0;j<board.length;j++){
+                if(board[i][j]!='.') {nine.add(Integer.parseInt(Character.toString(board[i][j])));count++;}
+            }
+            if(nine.size()==count) res[i]=true;
+            nine.clear();
+        }
+        
+        for(int i =0;i<board.length;i++){
+            count=0;
+            for(int j =0;j<board.length;j++){
+                if(board[j][i]!='.') {
+                    nine.add(Integer.parseInt(Character.toString(board[j][i])));count++;}
+            }
+            if(nine.size()==count) res[i+9]=true;
+            nine.clear();
+        }
+        nine.clear();
+        int[][] centers = new int[][]{{1,1},{1,4},{1,7},{4,1},{4,4},{4,7},{7,1},{7,4},{7,7}};
+        int[][] dirs = new int[][]{{0,0},{1,0},{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
+        int x,y;
+        int i=0;
+        for(int[] center:centers){
+            count=0;
+            x = center[0];
+            y = center[1];
+            for(int[] dir:dirs){
+                int row = x+dir[0];
+                int column = y +dir[1];
+                if(board[row][column]!='.') {nine.add(Integer.parseInt(Character.toString(board[row][column])));count++;}
+            }
+            if(nine.size()==count) 
+                res[i+18]=true;
+            i++;
+            nine.clear();
+        }
+        boolean result=res[0];
+        for(boolean res_1:res){
+            result = result&res_1;
+        }
+        return result;
+    }
+}
