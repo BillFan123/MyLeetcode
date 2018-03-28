@@ -1,0 +1,36 @@
+class Solution {
+    public int countBattleships(char[][] board) {
+        int res =0,resdue=0;;
+        int[][] dirs = new int[][] {{1,0},{-1,0},{0,1},{0,-1}};
+        char[][] new_board = new char[board.length+2][board[0].length+2];
+        for (int i =0;i<board.length+2;i++){
+            for(int j=0;j<board[0].length+2;j++){
+                new_board[i][j]='.';
+            }
+        }
+        
+        for (int i =1;i<board.length+1;i++){
+            for(int j=1;j<board[0].length+1;j++){
+                new_board[i][j]=board[i-1][j-1];
+            }
+        }
+
+        for(int i=1;i<board.length+1;i++){
+            for(int j=1;j<board[0].length+1;j++){
+                int row,column,point=0;
+                for(int[] dir:dirs){
+                    row= i+dir[0];
+                    column = j+dir[1];
+                    if(new_board[row][column]=='X')
+                        point++;
+                }
+                
+                if(new_board[i][j]=='X'&&point==1){ 
+                    res++;resdue++;}
+                if(new_board[i][j]=='X'&&point==0) 
+                    res++;
+            }
+        }
+        return res-resdue/2;
+    }
+}
