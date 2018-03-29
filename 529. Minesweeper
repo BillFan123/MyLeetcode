@@ -1,0 +1,45 @@
+class Solution {
+    public static int[][] dirs = new int[][]{{0,1},{0,-1},{1,0},{-1,0},{1,1},{1,-1},{-1,1},{-1,-1}};
+    public static char[][] my_board;
+    public static int x_row;
+    public static int y_cloumn;
+    public char[][] updateBoard(char[][] board, int[] click) {
+        if(board[click[0]][click[1]]=='M') {
+            board[click[0]][click[1]]='X';
+            return board;
+        }
+        
+        x_row = board.length;
+        y_cloumn = board[0].length;
+        int x = click[0];
+        int y = click[1];
+        my_board = board;
+        recur( my_board, x, y);
+        return my_board;
+    }
+    public void recur(char[][] my_board,int x,int y){
+        int mine_count=0;;
+                for(int[] dir:dirs){
+                    int row = x+dir[0];
+                    int column = y+dir[1];
+                    if(row<0||column<0||row>x_row-1||column>y_cloumn-1) 
+                        continue;
+                    if(my_board[row][column] =='M')
+                        mine_count++;
+                }
+        if(mine_count!=0) 
+            my_board[x][y] = Integer.toString(mine_count).charAt(0);
+        else {
+            my_board[x][y] = 'B';
+            for(int[] dir:dirs){
+                int row = x+dir[0];
+                int column = y+dir[1];
+                if(row<0||column<0||row>x_row-1||column>y_cloumn-1||my_board[row][column]!='E') 
+                    continue;
+                else
+                    recur(my_board,row,column);
+            }
+        }
+        return;
+    }
+}
