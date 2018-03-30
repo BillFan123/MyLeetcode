@@ -1,0 +1,28 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        ArrayList<Integer> nums_array= new  ArrayList<Integer>();
+        for(int mm:nums)
+            nums_array.add(mm);
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for(int number :nums)
+        map.put(number,0);
+        for(int number :nums)
+        map.put(number,map.get(number)+1);
+        int res=0;
+        for(Integer key : map.keySet()){
+            if(map.get(key)>2){
+                for(int i =0;i<map.get(key)-2;i++)
+                    nums_array.remove(key);
+                res+=2;
+            }else{
+                res+=map.get(key);
+            }
+        }
+        //int[] new_nums = new int[nums_array.size()];
+        for(int i=0;i<nums_array.size();i++)
+            nums[i] = nums_array.get(i);
+        //nums = nums_array.toArray();
+        return res;
+    }
+    
+}
