@@ -17,3 +17,56 @@ public class Solution {
         return maxlen;
     }
 }
+
+//my solution which isn't pass
+class Solution1 {
+    static int n;
+    public int findMaxLength(int[] nums) {
+        n = nums.length;
+        if(n==0||n==1) return 0;
+        int[] res = check(nums, 0,n-1);
+        return res[1]-res[0]+1;
+        
+    }
+    public int[] check(int[] nums,int start,int end){
+        if(start ==end) return new int[]{start,end};
+        int mid = start+(end-start)/2;
+        int[] resLeft = check(nums, start,mid);
+        int[] resRight = check(nums, mid+1,end);
+        if(resLeft[1]==mid&&resRight[0]==mid+1){
+            if(resLeft[1]-resLeft[0]==0&&resRight[1]-resRight[0]==0) 
+                return new int[]{resLeft[0],resRight[1]};
+            else if(resLeft[1]-resLeft[0]==0)
+                return resRight;
+            else if(resRight[1]-resRight[0]==0)
+                return resLeft;
+            else 
+                return new int[]{resLeft[0],resRight[1]};
+        }
+        if(resLeft[1]==mid&&resRight[0]!=mid+1){
+            int k=resLeft[1]+1,zeros=0,ones=0;
+            while(k<resRight[0])
+            {
+                if(nums[k]==0) zeros++;
+                if(nums[k]==1) ones++;
+                if(zeros==ones) resLeft[1]=k;
+                k++;
+            }
+        }
+        if(resLeft[1]!=mid&&resRight[0]==mid+1){
+           int k2=resRight[0]-1,zeros2=0,ones2=0;
+            while(k2>resLeft[1])
+            {
+                if(nums[k2]==0) zeros2++;
+                if(nums[k2]==1) ones2++;
+                if(zeros2==ones2) resRight[0]=k2;
+                k2--;
+            } 
+        }
+        if((resLeft[1]-resLeft[0])>=(resRight[1]-resRight[0])){
+            return resLeft;
+        }else 
+            return resRight;
+
+    }
+}
