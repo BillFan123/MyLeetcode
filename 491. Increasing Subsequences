@@ -1,0 +1,39 @@
+class Solution {
+    static int n;
+    public static List<List<Integer>> findSubsequences(int[] nums) {
+        List<List<Integer>> list =  new LinkedList<List<Integer>>();
+        Set<List<Integer>> arrays;
+        n = nums.length;
+        if(n==0) return list;
+        arrays = find(nums,0);
+        for(List<Integer> item:arrays)
+            if(item.size()!=1&&item.size()!=0)
+                list.add(item);
+        return list;
+    }
+    public static Set<List<Integer>> find(int[] nums,int start){
+        if(start==n-1){
+            Set<List<Integer>> list =  new HashSet<List<Integer>>();
+            List<Integer> s_list =  new LinkedList<Integer>();
+            s_list.add(nums[n-1]);
+            list.add(s_list);
+            return list;
+        }
+        Set<List<Integer>> res = find(nums,start+1);
+        Set<List<Integer>> res_add = new HashSet<List<Integer>>();
+        for(List<Integer> item:res){
+            LinkedList<Integer> m_item  = new LinkedList<Integer>(item);
+            int first_num = m_item.peek();
+            if(nums[start]<=first_num){
+                m_item.addFirst(nums[start]);
+                res_add.add(m_item);}
+        }
+        for(List<Integer> item:res_add)
+        	res.add(item);
+        List<Integer> one_num =  new LinkedList<Integer>();
+        one_num.add(nums[start]);
+        res.add(one_num);
+        return res;
+        
+    }
+}
