@@ -1,13 +1,13 @@
 class Solution {
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
-        ArrayList<Integer> temp = new ArrayList<Integer>();
+        List<Integer> temp = new ArrayList<Integer>();
         check(res,0,graph,temp);
         return res;
     }
-    public void check(List<List<Integer>> res,int level,int[][] graph,ArrayList<Integer> temp){
+    public void check(List<List<Integer>> res,int level,int[][] graph,List<Integer> temp){
         if(level == graph.length-1){
-            res.add((ArrayList)temp.clone());//I HAVE SOME PROBLEM HERE 
+            res.add(new ArrayList<>(temp));//THIS IS A TRICK THAT MUST NEW A OBJECT
             return;
         }
         if(level ==0)
