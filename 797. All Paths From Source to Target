@@ -1,0 +1,21 @@
+class Solution {
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+        check(res,0,graph,temp);
+        return res;
+    }
+    public void check(List<List<Integer>> res,int level,int[][] graph,ArrayList<Integer> temp){
+        if(level == graph.length-1){
+            res.add((ArrayList)temp.clone());//I HAVE SOME PROBLEM HERE 
+            return;
+        }
+        if(level ==0)
+            temp.add(level);
+        for(int i:graph[level]){
+            temp.add(i);
+            check(res,i,graph,temp);
+            temp.remove(new Integer(i));
+        }
+    }
+}
